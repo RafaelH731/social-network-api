@@ -1,13 +1,13 @@
-const { thought, User } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
-  getthoughts(req, res) {
-    thought.find()
+  getThoughts(req, res) {
+    Thought.find({})
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  getSinglethought(req, res) {
-    thought.findOne({ _id: req.params.thoughtId })
+  getSingleThought(req, res) {
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with that ID' })
@@ -16,8 +16,9 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // create a new thought
-  createthought(req, res) {
-    thought.create(req.body)
+  createThought(req, res) {
+    let body = req.body
+    Thought.create({body})
       .then((thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
@@ -37,8 +38,8 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  updatethought(req, res) {
-    thought.findOneAndUpdate(
+  updateThought(req, res) {
+    Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
@@ -53,8 +54,8 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  deletethought(req, res) {
-    thought.findOneAndRemove({ _id: req.params.thoughtId })
+  deleteThought(req, res) {
+    Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with this id!' })
@@ -74,8 +75,8 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Add a thought response
-  addthoughtResponse(req, res) {
-    thought.findOneAndUpdate(
+  addThoughtResponse(req, res) {
+    Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $addToSet: { responses: req.body } },
       { runValidators: true, new: true }
@@ -88,8 +89,8 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   // Remove thought response
-  removethoughtResponse(req, res) {
-    thought.findOneAndUpdate(
+  removeThoughtResponse(req, res) {
+    Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { reactions: { responseId: req.params.responseId } } },
       { runValidators: true, new: true }
