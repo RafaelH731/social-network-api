@@ -4,16 +4,17 @@ const responseSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
+      default: () => new Types.ObjectId
     },
-    responseBody: {
+    reactionBody: {
       type: String,
       required: true,
-      maxlength: 280,
+      minlength: 1,
+      maxlength: 200
     },
     username: {
       type: String,
-      required: true,
+      required: true
     },
     createdAt: {
       type: Date,
