@@ -1,6 +1,6 @@
 const { Schema, Types } = require('mongoose');
 
-const responseSchema = new Schema(
+const reactionSchema = new Schema(
   {
     reactionId: {
       type: Schema.Types.ObjectId,
@@ -10,7 +10,7 @@ const responseSchema = new Schema(
       type: String,
       required: true,
       minlength: 1,
-      maxlength: 200
+      maxlength: 280
     },
     username: {
       type: String,
