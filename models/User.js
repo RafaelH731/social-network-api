@@ -7,7 +7,7 @@ const userSchema = new Schema(
           type: String,
           unique: true,
           required: true,
-          trim: true
+          trimmed: true
 
       },
       email: {
@@ -42,17 +42,12 @@ const userSchema = new Schema(
 
 // Create a virtual property `fullName` that gets and sets the user's full name
 userSchema
-  .virtual('fullName')
+  .virtual('friendCount')
   // Getter
   .get(function () {
-    return `${this.first} ${this.last}`;
+    return this.friends.lenght;
   })
   // Setter to set the first and last name
-  .set(function (v) {
-    const first = v.split(' ')[0];
-    const last = v.split(' ')[1];
-    this.set({ first, last });
-  });
 
 // Initialize our User model
 const User = model('user', userSchema);
