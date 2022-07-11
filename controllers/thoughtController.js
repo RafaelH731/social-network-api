@@ -17,8 +17,9 @@ module.exports = {
   },
   // create a new thought
   createThought(req, res) {
+    console.log(req.body)
     let body = req.body
-    Thought.create({body})
+    Thought.create(body)
       .then((Thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
